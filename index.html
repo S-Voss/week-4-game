@@ -25,7 +25,8 @@
     <div class="col-md-4"></div>
 
     <div class="col-md-2">
-      <div class="panel panel-default hansolo-panel data-value='{hansolo}'">
+      <div class="panel panel-default hansolo-panel" name="Han Solo"
+      id="han-solo">
         <div class="panel-heading">
           <h3 class="panel-title">Han Solo</h3>
         </div>
@@ -37,7 +38,7 @@
     </div>
 
     <div class="col-md-2">
-      <div class="panel panel-default general-g-panel data-value='{grievous}'">
+      <div class="panel panel-default general-g-panel" name="General Grievous" id="general-grievous">
         <div class="panel-heading">
           <h3 class="panel-title">General Grievous</h3>
         </div>
@@ -49,7 +50,7 @@
     </div>
 
     <div class="col-md-2">
-      <div class="panel panel-default darth-vader-panel data-value='{darthvader}'">
+      <div class="panel panel-default darth-vader-panel" name="Darth Vader" id="darth-vader">
         <div class="panel-heading">
           <h3 class="panel-title">Darth Vader</h3>
         </div>
@@ -61,7 +62,7 @@
     </div>
 
     <div class="col-md-2">
-      <div class="panel panel-default yodas-panel data-value='{yoda}'">
+      <div class="panel panel-default yodas-panel" name="Yoda" id="yoda">
         <div class="panel-heading">
           <h3 class="panel-title">Yoda</h3>
         </div>
@@ -76,7 +77,12 @@
 
   <div class="row">
     <div class="col-md-8"></div>
-    <div class="col-md-2" id="player-character"><h2>Player</h2></div>
+    <div class="col-md-2"><h2>Player</h2></div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-2" id="player-character"></div>
   </div>
 
   <div class="row">
@@ -86,8 +92,14 @@
 
   <div class="row">
     <div class="col-md-6"></div>
-    <div class="col-md-6" id="enemy-backup"><h2>Enemy Reinforcements</h2></div>
+    <div class="col-md-6"><h2>Enemy Reinforcements</h2></div>
   </div>
+
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-2" id="enemy-backup"></div>
+  </div>
+
 </div>
 
   <script src="https://code.jquery.com/jquery.js"></script>

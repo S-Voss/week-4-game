@@ -17,9 +17,10 @@
 //   }
 // }
 
-//This code is for the character object variables as well as other userful global variables
+//Global Objects
 var hansolo = {
   name: "Han Solo",
+  idName: "#han-solo",
   image: "../images/hansolo.jpg",
   hp: 100,
   attackpower: 8,
@@ -28,6 +29,7 @@ var hansolo = {
 
 var grievous = {
   name: "General Grievous",
+  idName: "#general-grievous",
   image: "../images/Grievous.jpg",
   hp: 120,
   attackpower: 8,
@@ -36,6 +38,7 @@ var grievous = {
 
 var darthvader = {
   name: "Darth Vader",
+  idName: "#darth-vader",
   image: "../images/darthvader.jpg",
   hp: 150,
   attackpower: 8,
@@ -44,20 +47,37 @@ var darthvader = {
 
 var yoda = {
   name: "Yoda",
+  idName: "#yoda",
   image: "../images/yoda.jpg",
   hp: 180,
   attackpower: 8,
   cattackpower: 25,
 }
+//An array of all of my character objects
+var charList = [hansolo, grievous, darthvader, yoda];
 
+//Global Variables
 var playerCharacter;
 var opponentCharacter;
+var backupCharacters = [];
 var playerHP;
 var opponentHP;
 var attackPower;
 
+//Global Functions
+
+//This function moves the players character across screen and sets the necessary player variables for the game
+function chooseCharacter(chosenCharacter) {
+  $(chosenCharacter.idName).appendTo("#player-character");
+}
+
+//This function moves the enemy characters across the screen and sets their necessary variables for the game
+function charactersNotChose(unChosenCharacters) {
+    $(unChosenCharacters.idName).appendTo("#enemy-backup");
+}
+
 //This code is the Game's Logic
-$(document).ready = function() {
+$(document).ready(function() {
 
   //Initialize the game using a function to ensure restart feature works
   function initializeGame() {
@@ -66,19 +86,31 @@ $(document).ready = function() {
     var attackPower;
 
     $("#player-character, #enemy-battling, #enemy-backup").empty();
-  }
+  };
 
   //Add the on.Click listener to the character options to set player-character
-  $("panel-default").on("click", function() {
-
+  $(".panel-default").on("click", function() {
     //Check to see if the player has already chosen a character or not.
-    if (playerCharacter != "") return;
+    if (!playerCharacter) {
+
+      //Loop through characters array to set the character the player chose and the ones they did not as corresponding value
+      for (i = 0; i < charList.length; i++) {
+        var playerCharacterName = $(this).attr("name")
+        if (charList[i].name === playerCharacterName) {
+          playerCharacter = charList[i];
+          chooseCharacter(playerCharacter);
+        } else {
+          backupCharacters.push(charList[i]);
+          charactersNotChose(backupCharacters[i]);
+        }
+      }
+    }
+    console.log(playerCharacter);
+    console.log(backupCharacters);
+  });
+
+
 
     //If player has not chosen character, set chosen character as playerCharacter
-    if (playerCharacter === "") {
-      playerCharacter = this.data
-      $("#player-character").html(playerCharacter);
-    }
 
-  });
-};
+});
