@@ -93,15 +93,17 @@ $(document).ready(function() {
     //Check to see if the player has already chosen a character or not.
     if (!playerCharacter) {
 
+      var playerCharacterName = $(this).attr("name")
       //Loop through characters array to set the character the player chose and the ones they did not as corresponding value
       for (i = 0; i < charList.length; i++) {
-        var playerCharacterName = $(this).attr("name")
-        if (charList[i].name === playerCharacterName) {
-          playerCharacter = charList[i];
+        var currentCharacter = charList[i];
+
+        if (currentCharacter.name === playerCharacterName) {
+          playerCharacter = currentCharacter;
           chooseCharacter(playerCharacter);
         } else {
-          backupCharacters.push(charList[i]);
-          charactersNotChose(backupCharacters[i]);
+          backupCharacters.push(currentCharacter);
+          charactersNotChose(currentCharacter);
         }
       }
     }
@@ -114,3 +116,6 @@ $(document).ready(function() {
     //If player has not chosen character, set chosen character as playerCharacter
 
 });
+
+//This function reloads the webpage after the game has been won
+//window.location.reload();
