@@ -1,22 +1,3 @@
-// var byline = document.getElementById('byline');     // Find the H2
-// bylineText = byline.innerHTML;                                      // Get the content of the H2
-// bylineArr = bylineText.split('');                                   // Split content into array
-// byline.innerHTML = '';                                                      // Empty current content
-//
-// var span;                   // Create variables to create elements
-// var letter;
-//
-// for(i=0;i<bylineArr.length;i++){                                    // Loop for every letter
-//   span = document.createElement("span");                    // Create a <span> element
-//   letter = document.createTextNode(bylineArr[i]);   // Create the letter
-//   if(bylineArr[i] == ' ') {                                             // If the letter is a space...
-//     byline.appendChild(letter);                 // ...Add the space without a span
-//   } else {
-//         span.appendChild(letter);                       // Add the letter to the span
-//     byline.appendChild(span);                   // Add the span to the h2
-//   }
-// }
-
 //Global Objects
 var hansolo = {
   name: "Han Solo",
@@ -64,7 +45,7 @@ var playerHP;
 var opponentHP;
 var attackPower;
 var cAttackPower;
-
+var opponents = 3;
 //Global Functions
 
 //This function moves the players character across screen and sets the necessary player variables for the game
@@ -77,22 +58,12 @@ function charactersNotChose(unChosenCharacters) {
     $(unChosenCharacters.idName).appendTo("#enemy-backup");
 };
 
-//This function enables the fight Logic
-function fight(opponentHP, playerHP, attackPower) {
-  opponentHP = opponentHP - attackPower;
-  playerHP = playerHP - cAttackPower;
-  attackPower = attackPower + 8;
-  // console.log(attackPower);
-  // console.log(opponentHP);
-  // console.log(playerHP);
-};
-
 //This code is the Game's Logic
 $(document).ready(function() {
 
   //Initialize the game using a function to ensure restart feature works
   function initializeGame() {
-
+    //Ensures that the game loads correctly
     $("#player-character, #enemy-battling, #enemy-backup").empty();
   };
 
@@ -139,17 +110,35 @@ $(document).ready(function() {
 
   //Add the on.Click listener to the fight button to enable the fight Logic
   $(".fight-button").on("click", function() {
-    if (!opponentCharacter) {
-      alert("You must choose an opponent!");
+    //Checks to make sure the game has not already been won
+    if (opponents != 0) {
+      if (!opponentCharacter) {
+        alert("You must choose an opponent!");
+      }
+      //Check to see if both player and opponent are alive
+      if (opponentHP > 0 && playerHP > 0 && attackPower < opponentHP) {
+        //Logic to increase player's attack, decrease HP of opponent and player accordingly.
+        opponentHP = opponentHP - attackPower;
+        playerHP = playerHP - cAttackPower;
+        attackPower = attackPower + 8;
+      //Check to see if opponent has died and player is alive.
+      } else if (opponentHP < 0 && playerHP > 0 || attackPower > opponentHP) {
+        $("#enemy-battling").empty();
+        alert("Opponent defeated. Choose a new opponent.")
+        //Decreases the count of opponents left to fight. This will help determine the victory condition.
+        opponents--;
+      //Check to see if player has died
+      } else if (opponentHP > 0 && playerHP < 0){
+        alert("You died!")
+      };
+    } else {
+      alert("YOU ARE VICTORIOUS! Restart the game to play again.");
     }
-
-    fight(opponentHP, playerHP, attackPower);
   });
-
-
-
 
 });
 
 //This function reloads the webpage after the game has been won
-//window.location.reload();
+$(".restart-button").on("click", function() {
+  window.location.reload();
+});
