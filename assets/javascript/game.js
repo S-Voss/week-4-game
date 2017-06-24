@@ -63,27 +63,35 @@ var backupCharacters = [];
 var playerHP;
 var opponentHP;
 var attackPower;
+var cAttackPower;
 
 //Global Functions
 
 //This function moves the players character across screen and sets the necessary player variables for the game
 function chooseCharacter(chosenCharacter) {
   $(chosenCharacter.idName).appendTo("#player-character");
-}
+};
 
 //This function moves the enemy characters across the screen and sets their necessary variables for the game
 function charactersNotChose(unChosenCharacters) {
     $(unChosenCharacters.idName).appendTo("#enemy-backup");
-}
+};
+
+//This function enables the fight Logic
+function fight(opponentHP, playerHP, attackPower) {
+  opponentHP = opponentHP - attackPower;
+  playerHP = playerHP - cAttackPower;
+  attackPower = attackPower + 8;
+  // console.log(attackPower);
+  // console.log(opponentHP);
+  // console.log(playerHP);
+};
 
 //This code is the Game's Logic
 $(document).ready(function() {
 
   //Initialize the game using a function to ensure restart feature works
   function initializeGame() {
-    var playerHP;
-    var opponentHP;
-    var attackPower;
 
     $("#player-character, #enemy-battling, #enemy-backup").empty();
   };
@@ -92,28 +100,54 @@ $(document).ready(function() {
   $(".panel-default").on("click", function() {
     //Check to see if the player has already chosen a character or not.
     if (!playerCharacter) {
-
-      var playerCharacterName = $(this).attr("name")
+      //Set a variable holding the player's choice regarding the choices class name
+      var playerCharacterName = $(this).attr("name");
       //Loop through characters array to set the character the player chose and the ones they did not as corresponding value
       for (i = 0; i < charList.length; i++) {
         var currentCharacter = charList[i];
-
+        //Iterate through the possible characters and set the user choice as their character
         if (currentCharacter.name === playerCharacterName) {
           playerCharacter = currentCharacter;
+          playerHP = playerCharacter.hp;
+          attackPower = playerCharacter.attackpower;
           chooseCharacter(playerCharacter);
+        //While iterating, set the characters the player did not choose as enemies
         } else {
           backupCharacters.push(currentCharacter);
           charactersNotChose(currentCharacter);
         }
       }
+    } else {
+      //If the player has selected their character, let the next option choose the first enemy to fight.
+      if (playerCharacter) {
+        //Set the variable holding the player's choice regarding first enemy to fight
+        var enemyCharacterName = $(this).attr("name");
+        //Loop through backupCharacters array to set the character the player chose to fight
+        for (i = 0; i < backupCharacters.length; i++) {
+          var characterCheck = backupCharacters[i];
+          //Iterate through the possible characters left and set the user's next choice as currentEnemy
+          if (characterCheck.name === enemyCharacterName) {
+            opponentCharacter = enemyCharacterName;
+            opponentHP = characterCheck.hp;
+            cAttackPower = characterCheck.cattackpower;
+            $(characterCheck.idName).appendTo("#enemy-battling");
+          }
+        }
+      }
+    };
+  });
+
+  //Add the on.Click listener to the fight button to enable the fight Logic
+  $(".fight-button").on("click", function() {
+    if (!opponentCharacter) {
+      alert("You must choose an opponent!");
     }
-    console.log(playerCharacter);
-    console.log(backupCharacters);
+
+    fight(opponentHP, playerHP, attackPower);
   });
 
 
 
-    //If player has not chosen character, set chosen character as playerCharacter
 
 });
 
