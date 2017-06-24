@@ -122,18 +122,23 @@ $(document).ready(function() {
         playerHP = playerHP - cAttackPower;
         attackPower = attackPower + 8;
       //Check to see if opponent has died and player is alive.
-      } else if (opponentHP < 0 && playerHP > 0 || attackPower > opponentHP) {
+    } else if (opponentHP < 0 && playerHP > 0 || attackPower >= opponentHP) {
         $("#enemy-battling").empty();
         alert("Opponent defeated. Choose a new opponent.")
         //Decreases the count of opponents left to fight. This will help determine the victory condition.
         opponents--;
       //Check to see if player has died
-      } else if (opponentHP > 0 && playerHP < 0){
-        alert("You died!")
+    } else if (opponentHP > 0 && playerHP <= 0){
+        alert("You died! Please restart the game to try again.")
       };
     } else {
       alert("YOU ARE VICTORIOUS! Restart the game to play again.");
     }
+
+    //Could not get HTML to update displaying the HP for the player and opponent. This is the only way I could show those statistics currently. 
+    console.log("Attack Power: " + attackPower);
+    console.log("Player HP: " + playerHP);
+    console.log("Opponent HP: " + opponentHP);
   });
 
 });
